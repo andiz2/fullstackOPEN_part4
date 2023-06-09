@@ -1,0 +1,10 @@
+PUT http://localhost:3001/api/articles/6481cdd1a5f07b8577f60f8c
+
+Content-Type: application/json
+
+{
+  "title": "Not today, not tomorrow",
+  "author": "Me and m",
+  "url": "http://mingicareala.com",
+  "likes": 521
+}
