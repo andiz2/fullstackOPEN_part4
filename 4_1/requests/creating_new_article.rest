@@ -2,8 +2,8 @@ POST http://localhost:3001/api/articles
 Content-Type: application/json
 
 {
-  "title": "Not today",
-  "author": "Me and my man",
-  "url": "http://mingicareala.com",
-  "likes": 521
+  "title": "Wherever",
+  "author": "Springtime",
+  "url": "http://mcareala.com",
+  "likes": 12
 }

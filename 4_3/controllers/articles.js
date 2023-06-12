@@ -7,19 +7,20 @@ articlesRouter.get('/', (request, response) => {
   })
 })
 
-articlesRouter.get('/:id', (request, response, next) => {
-  Article.findById(request.params.id)
-    .then(article => {
+articlesRouter.get('/:id', async (request, response, next) => {
+  try{
+    const article = await Article.findById(request.params.id)
       if (article) {
         response.json(article)
       } else {
         response.status(404).end()
       }
-    })
-    .catch(error => next(error))
+    } catch (exception){
+      next(exception)
+    }
 })
 
-articlesRouter.post('/', (request, response, next) => {
+articlesRouter.post('/', async (request, response, next) => {
   const body = request.body
 
   const article = new Article({
@@ -28,20 +29,21 @@ articlesRouter.post('/', (request, response, next) => {
     url: body.url,
     likes: body.likes
   })
-
-  article.save()
-    .then(savedArticle => {
-      response.json(savedArticle)
-    })
-    .catch(error => next(error))
+  try {
+    const savedArticle = await article.save()
+    response.status(201).json(savedArticle)
+  } catch (exception){
+    next (exception)
+  }
 })
 
-articlesRouter.delete('/:id', (request, response, next) => {
-  Article.findByIdAndRemove(request.params.id)
-    .then(() => {
-      response.status(204).end()
-    })
-    .catch(error => next(error))
+articlesRouter.delete('/:id', async (request, response, next) => {
+  try {
+    await Article.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+    } catch (exception){
+      next (exception)
+    }
 })
 
 articlesRouter.put('/:id', (request, response, next) => {
