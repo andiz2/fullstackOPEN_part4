@@ -9,11 +9,22 @@ const api = supertest(app)
 
 beforeEach(async () => {
   await Article.deleteMany({})
-  let articleObject = new Article(helper.initialArticles[0])
-  await articleObject.save()
+  console.log('cleared')
+  helper.initialArticles.forEach(async (article) => {
+  	let articleObject = new Article(article)
+  	await articleObject.save()
+  	console.log('saved')
+  })
+  console.log('done')
+ 
+})
 
-  articleObject = new Article(helper.initialArticles[1])
-  await articleObject.save()
+test('articles are returned as json', async () => {
+  console.log('entered test')
+  await api
+    .get('/api/articles')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 })
 
 test('a valid article can be added', async () => {
@@ -105,12 +116,7 @@ test('an article can be deleted', async () => {
   expect(titles).not.toContain(articleToDelete.titles)
 })
 
-test('articles are returned as json', async () => {
-  await api
-    .get('/api/articles')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+
 
 test('there are two articles', async () => {
   const response = await api.get('/api/articles')
